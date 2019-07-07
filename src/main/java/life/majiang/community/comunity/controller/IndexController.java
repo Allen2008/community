@@ -10,8 +10,5 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(){return "index";}
-//    public String hello(@RequestParam(name = "name") String name, Model model){
-//        model.addAttribute("name",name);
-//        return "index";
-//    }
+
 }
