@@ -3,6 +3,7 @@ package life.majiang.community.comunity.controller;
 import life.majiang.community.comunity.dto.AccessTokenDto;
 import life.majiang.community.comunity.dto.GithubUser;
 import life.majiang.community.comunity.provider.GithubProvider;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -36,16 +37,18 @@ public class AuthorizeContraller {
         accessTokenDto.setCode(code);
         accessTokenDto.setRedirect_url("http://127.0.0.1:8888/callback");
         accessTokenDto.setState(state);
-        githubProvider.getAccessToken(accessTokenDto);
+        //githubProvider.getAccessToken(accessTokenDto);
         String accessToken = githubProvider.getAccessToken(accessTokenDto);
+        System.out.println("accessToken :" +accessToken);
         GithubUser user = githubProvider.getUser(accessToken);
+        System.out.println(user.getName());
         if(user!= null){
             //登录成功，写cookie和session
             request.getSession().setAttribute("user",user);
-            return "redirect:index";
+            return "redirect:/";
         }else {
             //登录失败
-            return "redirect:index";
+            return "redirect:/";
         }
     }
 }
