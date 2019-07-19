@@ -45,7 +45,7 @@ public class GithubProvider {
         try {
             Response response = client.newCall(request).execute();
             String string=response.body().string();
-           System.out.println("string2: "+string);
+//           System.out.println("string2: "+string);
             GithubUser githubUser = JSON.parseObject(string,GithubUser.class);
             System.out.println("githubUser :"+githubUser);
            return githubUser;

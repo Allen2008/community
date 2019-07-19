@@ -2,6 +2,8 @@ package life.majiang.community.comunity.controller;
 
 import life.majiang.community.comunity.dto.AccessTokenDto;
 import life.majiang.community.comunity.dto.GithubUser;
+import life.majiang.community.comunity.mapper.UserMapper;
+import life.majiang.community.comunity.model.User;
 import life.majiang.community.comunity.provider.GithubProvider;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeContraller {
@@ -25,6 +28,9 @@ public class AuthorizeContraller {
 //    private String clientSecret;
 //    @Value("{github.rederect.url}")
 //    private String clientRedirectURL;
+    
+    @Autowired
+    private UserMapper userMapper;
 
 
     @GetMapping("/callback")
@@ -40,11 +46,19 @@ public class AuthorizeContraller {
         //githubProvider.getAccessToken(accessTokenDto);
         String accessToken = githubProvider.getAccessToken(accessTokenDto);
         System.out.println("accessToken :" +accessToken);
-        GithubUser user = githubProvider.getUser(accessToken);
-        System.out.println(user.getName());
-        if(user!= null){
+        GithubUser githubUser = githubProvider.getUser(accessToken);
+        System.out.println(githubUser.getName());
+        if(githubUser!= null){
+            User user = new User();
+            user.setToken(UUID.randomUUID().toString());
+            user.setName(githubUser.getName());
+            user.setAccountID(String.valueOf(githubUser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            userMapper.insert(user);
+
             //登录成功，写cookie和session
-            request.getSession().setAttribute("user",user);
+            request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
         }else {
             //登录失败
