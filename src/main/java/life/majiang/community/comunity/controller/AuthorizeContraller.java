@@ -63,7 +63,7 @@ public class AuthorizeContraller {
             response.addCookie(new Cookie("token",token));
             //登录成功，写cookie和session
 
-//            request.getSession().setAttribute("user",githubUser);
+           request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
         }else {
             //登录失败

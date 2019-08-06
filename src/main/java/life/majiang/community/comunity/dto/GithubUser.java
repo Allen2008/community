@@ -1,5 +1,8 @@
 package life.majiang.community.comunity.dto;
 
+import lombok.Data;
+
+
 public class GithubUser {
     private String name;
     private Long id;
