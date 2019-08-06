@@ -59,6 +59,8 @@ public class AuthorizeContraller {
             user.setAccountID(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
+            System.out.println(githubUser.getAvatarUrl());
             userMapper.insert(user);
             response.addCookie(new Cookie("token",token));
             //登录成功，写cookie和session
