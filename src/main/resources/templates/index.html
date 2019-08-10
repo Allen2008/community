@@ -4,17 +4,13 @@
     <title>Allen Community</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="/css/bootstrap-theme.min.css">-->
-    <!--<script src="/js/bootstrap.min.js"></script>-->
     <link rel="stylesheet" href="/css/bootstrap-theme.css">
     <script src="/js/bootstrap.js"></script>
     <link rel="stylesheet" href="/css/community.css">
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 </head>
 <body>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Allen community</span>
@@ -55,15 +51,18 @@
         <div class="col-lg-9  col-md-12 col-sm-12 ol-xs-12">
             <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>发现</h2>
 
-            <div class="media">
-                <div class="media-left">
+            <div class="media" th:each="question:${questions}">
+                <div class="media-left" >
                     <a href="#">
-                        <img class="media-object img-rounded" src="https://avatars0.githubusercontent.com/u/13836007?v=4" >
+                        <img class="media-object img-rounded"
+                             th:src="${question.user.getAvatarUrl()}">
                     </a>
-                </div>
+
                 <div class="media-body">
-                    <h4 class="media-heading">怎么快速学会spring boot开发</h4>
-                    努力学习
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span th:text="${question.description}"></span>
+                    <span class="text-desc"><span th:text="${question.commentCount}" ></span>个回复数<span th:text="${question.viewCount}"></span>次浏览 <span th:text="${#dates.format(question.getGmtCreate(),'dd MMMM yyyy')}"></span></span>
+                </div>
                 </div>
             </div>
 
